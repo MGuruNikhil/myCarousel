@@ -59,20 +59,7 @@ function autoplayCarousel() {
     carouselEl.addEventListener("mouseleave", () => {
         autoplay = setInterval(() => navigate("forward"), 3000);
     });
-
-    slideContainerEl.addEventListener("mouseenter", () => clearInterval(autoplay));
-    slideContainerEl.addEventListener("mouseleave", () => {
-        autoplay = setInterval(() => navigate("forward"), 3000);
-    });
     
-    const FBBtns = document.getElementsByClassName("FBbutton");
-    Array.from(FBBtns).forEach(btn => {
-        btn.addEventListener("mouseenter", () => clearInterval(autoplay));
-        btn.addEventListener("mouseleave", () => {
-            autoplay = setInterval(() => navigate("forward"), 3000);
-        });
-    });
-
     // Slide transition
     const getNewScrollPosition = (arg) => {
         const noOfCards = document.getElementById('slide-container').childElementCount - 2;
