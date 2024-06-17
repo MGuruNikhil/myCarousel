@@ -6,7 +6,6 @@ function autoplayCarousel() {
 
     var emptyWidth = (fullWidth / 2) - (cardWidth / 2);
 
-    // Convert HTMLCollection to an array
     Array.from(emptyCards).forEach(card => {
         card.style.minWidth = `${emptyWidth}px`;
         card.style.minHeight = `${cardHeight}px`;
@@ -109,13 +108,17 @@ function autoplayCarousel() {
 }
 
 function displayDots() {
-    const noOfDots = document.getElementById('slide-container').childElementCount - 2;
     const dotContainer = document.getElementById("slide-indicators");
+    const slideContainerEl = document.getElementById('slide-container');
+    var cardWidth = document.getElementById('card').offsetWidth;
+    const noOfDots = slideContainerEl.childElementCount - 2;
+    const sl = slideContainerEl.scrollLeft;
+    const cardNumber = (sl/cardWidth);
     for(let i = 0; i < noOfDots; i++) {
         const dot = document.createElement('button');
         dot.setAttribute('type', 'button');
         dot.classList.add("slide-indicator", "w-3", "h-3", "rounded-full");
-        if(i==0) {
+        if(i==cardNumber) {
             dot.classList.add("bg-[#00b5e2]");
         } else {
             dot.classList.add("bg-[#ffffff]");
