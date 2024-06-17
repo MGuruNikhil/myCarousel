@@ -59,7 +59,7 @@ function autoplayCarousel() {
     carouselEl.addEventListener("mouseleave", () => {
         autoplay = setInterval(() => navigate("forward"), 3000);
     });
-    
+
     // Slide transition
     const getNewScrollPosition = (arg) => {
         const noOfCards = document.getElementById('slide-container').childElementCount - 2;
@@ -105,7 +105,7 @@ function displayDots() {
         const dot = document.createElement('button');
         dot.setAttribute('type', 'button');
         dot.classList.add("slide-indicator", "w-3", "h-3", "rounded-full");
-        if(i==cardNumber) {
+        if(i==Math.round(cardNumber)) {
             dot.classList.add("bg-[#00b5e2]");
         } else {
             dot.classList.add("bg-[#ffffff]");
