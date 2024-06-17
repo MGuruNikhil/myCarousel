@@ -62,13 +62,24 @@ function autoplayCarousel() {
 
     // Slide transition
     const getNewScrollPosition = (arg) => {
+        const sl = slideContainerEl.scrollLeft;
         const noOfCards = document.getElementById('slide-container').childElementCount - 2;
         const maxScrollLeft = cardWidth * (noOfCards - 1);
         if (arg === "forward") {
-            const x = slideContainerEl.scrollLeft + cardWidth;
+            let x;
+            if(sl % cardWidth == 0) {
+                x = sl + cardWidth;
+            } else {
+                x = (Math.ceil(sl/cardWidth)) * cardWidth;
+            }
             return x <= maxScrollLeft ? x : 0;
         } else if (arg === "backward") {
-            const x = slideContainerEl.scrollLeft - cardWidth;
+            let x;
+            if(sl % cardWidth == 0) {
+                x = sl - cardWidth;
+            } else {
+                x = (Math.floor(sl/cardWidth)) * cardWidth;
+            }
             return x >= 0 ? x : maxScrollLeft;
         } else if (typeof arg === "number") {
             const x = arg * (cardWidth);
@@ -79,10 +90,10 @@ function autoplayCarousel() {
     //styling the dot and the mid card
     slideContainerEl.addEventListener('scroll', () => {
         const sl = slideContainerEl.scrollLeft;
-        const cardNumber = (sl/cardWidth);
+        const cardNumber = Math.round(sl/cardWidth);
         const dotContainer = document.getElementById("slide-indicators");
         const prevDot = dotContainer.getElementsByClassName('bg-[#00b5e2]')[0];
-        const presentDot = dotContainer.children[Math.round(cardNumber)];
+        const presentDot = dotContainer.children[cardNumber];
         prevDot.classList.add('bg-[#ffffff]');
         prevDot.classList.remove('bg-[#00b5e2]');
         presentDot.classList.add("bg-[#00b5e2]");
@@ -100,12 +111,12 @@ function displayDots() {
     var cardWidth = document.getElementById('card').offsetWidth;
     const noOfDots = slideContainerEl.childElementCount - 2;
     const sl = slideContainerEl.scrollLeft;
-    const cardNumber = (sl/cardWidth);
+    const cardNumber = Math.round(sl/cardWidth);
     for(let i = 0; i < noOfDots; i++) {
         const dot = document.createElement('button');
         dot.setAttribute('type', 'button');
         dot.classList.add("slide-indicator", "w-3", "h-3", "rounded-full");
-        if(i==Math.round(cardNumber)) {
+        if(i==cardNumber) {
             dot.classList.add("bg-[#00b5e2]");
         } else {
             dot.classList.add("bg-[#ffffff]");
