@@ -55,9 +55,23 @@ function autoplayCarousel() {
 
     // Autoplay
     let autoplay = setInterval(() => navigate("forward"), 3000);
+
     carouselEl.addEventListener("mouseenter", () => clearInterval(autoplay));
     carouselEl.addEventListener("mouseleave", () => {
         autoplay = setInterval(() => navigate("forward"), 3000);
+    });
+
+    slideContainerEl.addEventListener("mouseenter", () => clearInterval(autoplay));
+    slideContainerEl.addEventListener("mouseleave", () => {
+        autoplay = setInterval(() => navigate("forward"), 3000);
+    });
+    
+    const FBBtns = document.getElementsByClassName("FBbutton");
+    Array.from(FBBtns).forEach(btn => {
+        btn.addEventListener("mouseenter", () => clearInterval(autoplay));
+        btn.addEventListener("mouseleave", () => {
+            autoplay = setInterval(() => navigate("forward"), 3000);
+        });
     });
 
     // Slide transition
@@ -76,9 +90,21 @@ function autoplayCarousel() {
         }
     }
 
+    //styling the dot and the mid card
+    slideContainerEl.addEventListener('scroll', () => {
+        const sl = slideContainerEl.scrollLeft;
+        const cardNumber = (sl/cardWidth);
+        const dotContainer = document.getElementById("slide-indicators");
+        const prevDot = dotContainer.getElementsByClassName('bg-[#00b5e2]')[0];
+        const presentDot = dotContainer.children[Math.round(cardNumber)];
+        prevDot.classList.add('bg-[#ffffff]');
+        prevDot.classList.remove('bg-[#00b5e2]');
+        presentDot.classList.add("bg-[#00b5e2]");
+        presentDot.classList.remove('bg-[#ffffff]');
+    })
+
     const navigate = (arg) => {
         slideContainerEl.scrollLeft = getNewScrollPosition(arg);
-        console.log(slideContainerEl.scrollLeft);
     }
 }
 
@@ -88,7 +114,12 @@ function displayDots() {
     for(let i = 0; i < noOfDots; i++) {
         const dot = document.createElement('button');
         dot.setAttribute('type', 'button');
-        dot.classList.add("slide-indicator", "w-3", "h-3", "rounded-full", "bg-white");
+        dot.classList.add("slide-indicator", "w-3", "h-3", "rounded-full");
+        if(i==0) {
+            dot.classList.add("bg-[#00b5e2]");
+        } else {
+            dot.classList.add("bg-[#ffffff]");
+        }
         dotContainer.appendChild(dot);
     }
 }
