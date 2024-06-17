@@ -62,7 +62,8 @@ function autoplayCarousel() {
 
     // Slide transition
     const getNewScrollPosition = (arg) => {
-        const maxScrollLeft = slideContainerEl.scrollWidth - slideContainerEl.clientWidth;
+        const noOfCards = document.getElementById('slide-container').childElementCount - 2;
+        const maxScrollLeft = cardWidth * (noOfCards - 1);
         if (arg === "forward") {
             const x = slideContainerEl.scrollLeft + cardWidth;
             return x <= maxScrollLeft ? x : 0;
@@ -77,7 +78,22 @@ function autoplayCarousel() {
 
     const navigate = (arg) => {
         slideContainerEl.scrollLeft = getNewScrollPosition(arg);
+        console.log(slideContainerEl.scrollLeft);
     }
 }
 
-autoplayCarousel();
+function displayDots() {
+    const noOfDots = document.getElementById('slide-container').childElementCount - 2;
+    const dotContainer = document.getElementById("slide-indicators");
+    for(let i = 0; i < noOfDots; i++) {
+        const dot = document.createElement('button');
+        dot.setAttribute('type', 'button');
+        dot.classList.add("slide-indicator", "w-3", "h-3", "rounded-full", "bg-white");
+        dotContainer.appendChild(dot);
+    }
+}
+
+document.addEventListener('DOMContentLoaded', (event) => {
+    displayDots();
+    autoplayCarousel();
+});
