@@ -14,6 +14,9 @@ function autoplayCarousel() {
     const carouselEl = document.getElementById("carousel");
     const slideContainerEl = carouselEl.querySelector("#slide-container");
 
+    // Autoplay
+    let autoplay = setInterval(() => navigate("forward"), 3000);
+
     // Add click handlers
     document.querySelector("#back-button")
         .addEventListener("click", () => navigate("backward"));
@@ -23,15 +26,18 @@ function autoplayCarousel() {
         .forEach((dot, index) => {
             dot.addEventListener("click", () => navigate(index));
             dot.addEventListener("mouseenter", () => clearInterval(autoplay));
+            dot.addEventListener("mouseleave", () => { clearInterval(autoplay); autoplay = setInterval(() => navigate("forward"), 3000); });
         });
     // Add keyboard handlers
     document.addEventListener('keydown', (e) => {
         if (e.code === 'ArrowLeft') {
             clearInterval(autoplay);
             navigate("backward");
+            autoplay = setInterval(() => navigate("forward"), 3000);
         } else if (e.code === 'ArrowRight') {
             clearInterval(autoplay);
             navigate("forward");
+            autoplay = setInterval(() => navigate("forward"), 3000);
         }
     });
 
@@ -52,11 +58,9 @@ function autoplayCarousel() {
         navigate(0);
     });
 
-    // Autoplay
-    let autoplay = setInterval(() => navigate("forward"), 3000);
-
     carouselEl.addEventListener("mouseenter", () => clearInterval(autoplay));
     carouselEl.addEventListener("mouseleave", () => {
+        clearInterval(autoplay);
         autoplay = setInterval(() => navigate("forward"), 3000);
     });
 
